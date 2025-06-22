@@ -14,6 +14,7 @@ import MyOrders from './MyOrders';
 import TicketDetail from './TicketDetail';
 import UserProfile from './UserProfile';
 import EditEvent from './EditEvent';
+import API_BASE_URL from './config';
 
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
@@ -95,7 +96,7 @@ function AppContent() {
 
   const fetchDynamicCategories = useCallback(async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/events/categories/');
+      const response = await fetch(`${API_BASE_URL}/events/categories/`);
       if (!response.ok) {
         throw new Error('Failed to fetch categories');
       }
@@ -109,7 +110,7 @@ function AppContent() {
 
   const fetchDynamicLocations = useCallback(async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/events/locations/');
+      const response = await fetch(`${API_BASE_URL}/events/locations/`);
       if (!response.ok) {
         throw new Error('Failed to fetch locations');
       }
@@ -149,7 +150,7 @@ function AppContent() {
       }
 
       const queryString = queryParams.toString();
-      const url = `http://127.0.0.1:8000/api/events/${queryString ? '?' + queryString : ''}`;
+      const url = `${API_BASE_URL}/events/${queryString ? '?' + queryString : ''}`;
 
       console.log("Attempting to fetch events from URL:", url);
 
@@ -166,7 +167,7 @@ function AppContent() {
       const eventsWithDynamicPrices = await Promise.all(
         fetchedEvents.map(async (event) => {
           try {
-            const priceResponse = await fetch(`http://127.0.0.1:8000/api/events/${event.id}/current-price/`);
+            const priceResponse = await fetch(`${API_BASE_URL}/events/${event.id}/current-price/`);
             if (!priceResponse.ok) {
               console.warn(`Failed to fetch dynamic price for event ${event.id}: ${priceResponse.statusText}`);
               return { ...event, dynamic_price: event.price, tier_name: 'N/A', is_dynamic_price: false };
