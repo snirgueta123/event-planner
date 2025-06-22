@@ -7,7 +7,9 @@ SECRET_KEY = 'django-insecure-&hpholq1py1n$7k!-cvarhp97kreazyn+y7s31(8afdum^1rkf
 
 DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1',"event-planner-backend.onrender.com",]
+ALLOWED_HOSTS = ["event-planner-backend-kssg.onrender.com",
+    "localhost",
+    "127.0.0.1",]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -33,8 +35,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -100,17 +102,16 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
+    "https://event-planner-seven-henna.vercel.app",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://event-planner-j7g96kazf-snirgueta123s-projects.vercel.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://event-planner-seven-henna.vercel.app",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://event-planner-j7g96kazf-snirgueta123s-projects.vercel.app",
 ]
-
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
