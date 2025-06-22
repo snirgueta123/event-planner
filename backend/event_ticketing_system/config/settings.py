@@ -5,9 +5,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-&hpholq1py1n$7k!-cvarhp97kreazyn+y7s31(8afdum^1rkf'
 
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1',"event-planner-backend.onrender.com",]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -102,11 +102,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://event-planner-j7g96kazf-snirgueta123s-projects.vercel.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://event-planner-j7g96kazf-snirgueta123s-projects.vercel.app",
 ]
 
 CORS_ALLOW_METHODS = [
@@ -150,12 +152,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your_email@gmail.com'
-EMAIL_HOST_PASSWORD = 'your_app_password'
+EMAIL_HOST_USER = 'snir425@gmail.com'
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
 
 DEFAULT_FROM_EMAIL = 'your_email@gmail.com'
 
-FRONTEND_URL = 'http://localhost:3000'
+FRONTEND_URL = 'https://event-planner-j7g96kazf-snirgueta123s-projects.vercel.app'
 
 LOGIN_URL = '/api/users/login/'
 LOGIN_REDIRECT_URL = '/'
