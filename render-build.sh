@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# נכנסים לתיקיית backend כי שם נמצא Django project
-cd backend
+# הפעלת וירטואל אנווירונמנט אם צריך (רק אם יש לך כזה)
+# source venv/bin/activate
 
-# מתקינים את התלויות
-pip install -r requirements.txt
+# התקנת תלויות
+pip install -r backend/event_ticketing_system/requirements.txt
 
-# מבצעים את ה-collectstatic בלי קלט משתמש
-python manage.py collectstatic --noinput
+# איסוף קבצי סטטיק
+python backend/event_ticketing_system/manage.py collectstatic --noinput
 
-# מריצים מיגרציות בסיס הנתונים
-python manage.py migrate
+# הרצת מיגרציות
+python backend/event_ticketing_system/manage.py migrate
