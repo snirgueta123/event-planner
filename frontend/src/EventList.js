@@ -57,7 +57,7 @@ function EventList({
         <div className="max-w-7xl mx-auto px-4">
 
           {/* --- קרע עליון (Hero) --- */}
-          <section className="text-white text-center py-24">
+          <section className="text-white text-center py-4 md:py-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg" dir="rtl">
               ברוכים הבאים  EventTicketer
             </h1>
