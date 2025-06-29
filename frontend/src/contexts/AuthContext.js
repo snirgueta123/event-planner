@@ -27,13 +27,9 @@ export const AuthProvider = ({ children }) => {
   const { addToast } = useToast(); // קבלת פונקציה להצגת הודעות טוסט
 
   // כתובת ה-URL הבסיסית של שרת ה-Backend
-  const backendUrl = 'http://127.0.0.1:8000';
+  const backendUrl = 'https://event-planner-backend-kssg.onrender.com/';
 
-  // פונקציה מממוזערת לשליפת פרטי המשתמש מהשרת
-  // (השתמש ב-useCallback כדי שהפונקציה תהיה יציבה ולא תיווצר מחדש בכל רינדור)
   const fetchUser = useCallback(async (initialLoad = false) => {
-    // אם זו לא טעינה ראשונית, וכרגע כבר בטעינה, צא כדי למנוע כפל קריאות.
-    // אם זו טעינה ראשונית, תמיד נמשיך.
     if (!initialLoad && loading) {
       return;
     }
@@ -42,7 +38,6 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('authToken'); // נסה לקבל טוקן אימות
 
     if (!token) {
-      // אם אין טוקן, אין משתמש מאומת, סיים טעינה מיד
       setUser(null);
       setLoading(false);
       return;
