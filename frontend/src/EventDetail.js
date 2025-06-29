@@ -30,7 +30,7 @@ function EventDetail() {
         headers['Authorization'] = `Token ${token}`;
       }
 
-      const response = await fetch(`http://127.0.0.1:8000/api/events/${id}/`, { headers });
+      const response = await fetch(`https://event-planner-backend-kssg.onrender.com/api/events/${id}/`, { headers });
       if (!response.ok) {
         if (response.status === 404) {
           addToast("אירוע לא נמצא.", 'error');
@@ -57,7 +57,7 @@ function EventDetail() {
     try {
       // addToast('טוען מחיר עדכני...', 'info'); // אופציונלי: טוסט לטעינת מחיר
 
-      const response = await fetch(`http://127.0.0.1:8000/api/events/${event.id}/current-price/`);
+      const response = await fetch(`https://event-planner-backend-kssg.onrender.com/api/events/${event.id}/current-price/`);
       if (!response.ok) {
         throw new Error(`Failed to fetch dynamic price. Status: ${response.status}`);
       }
@@ -114,7 +114,7 @@ function EventDetail() {
     const token = localStorage.getItem('authToken');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/tickets/orders/purchase_tickets/', {
+      const response = await fetch('https://event-planner-backend-kssg.onrender.com/api/tickets/orders/purchase_tickets/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

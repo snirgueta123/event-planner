@@ -1,7 +1,7 @@
 // src/Register.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useToast } from './contexts/ToastContext'; // ייבוא ה-hook של ה-Toast
+import { useToast } from './contexts/ToastContext';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -9,20 +9,14 @@ function Register() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState(''); // לסיסמה שנייה (אימות)
-  // const [error, setError] = useState(null); // נסיר את זה כי נשתמש בטוסט
-  // const [message, setMessage] = useState(''); // נסיר את זה כי נשתמש בטוסט
-
+  const [password2, setPassword2] = useState('');
   const navigate = useNavigate();
-  const { addToast } = useToast(); // השגת הפונקציה addToast מהקונטקסט
+  const { addToast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setError(null); // אין צורך בזה יותר
-    // setMessage(''); // אין צורך בזה יותר
-    addToast('מבצע הרשמה...', 'info'); // הודעת טעינה/מידע
+    addToast('מבצע הרשמה...', 'info');
 
-    // ולידציה בסיסית בצד הלקוח
     if (password !== password2) {
       addToast("הסיסמאות אינן תואמות.", 'error');
       return;

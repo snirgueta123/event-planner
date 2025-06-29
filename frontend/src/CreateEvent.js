@@ -25,7 +25,7 @@ function CreateEvent() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  const backendUrl = 'http://127.0.0.1:8000';
+  const backendUrl = 'https://event-planner-backend-kssg.onrender.com';
 
   // פונקציה לאחזור אולמות
   const fetchVenues = useCallback(async () => {

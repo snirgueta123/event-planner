@@ -27,7 +27,7 @@ function SeatBookingPage() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
-  const backendUrl = 'http://127.0.0.1:8000/api';
+  const backendUrl = 'https://event-planner-backend-kssg.onrender.com/api';
 
   // אחזור כל האירועים עבור הרשימה הנפתחת
   useEffect(() => {
