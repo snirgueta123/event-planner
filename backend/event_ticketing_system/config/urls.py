@@ -6,6 +6,10 @@ from events.views import EventViewSet, get_categories_list, get_locations_list
 from tickets.views import OrderViewSet, TicketViewSet
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import JsonResponse
+
+def health_check(request):
+    return JsonResponse({'status': 'ok', 'message': 'Backend is running'})
 
 router = DefaultRouter()
 
@@ -14,6 +18,7 @@ router.register(r'tickets/orders', OrderViewSet, basename='order')
 router.register(r'tickets', TicketViewSet, basename='ticket')
 
 urlpatterns = [
+    path('', health_check),  # נתיב הבסיס
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),
     path('api/events/categories/', get_categories_list, name='event-categories-list'),
