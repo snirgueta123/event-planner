@@ -1,10 +1,7 @@
 #!/bin/bash
 
 echo "📦 Installing dependencies..."
-pip install -r backend/requirements.txt
-
-echo "⏳ Changing directory to backend/event_ticketing_system"
-cd backend/event_ticketing_system || exit 1
+pip install -r ../requirements.txt
 
 echo "🧹 Collecting static files..."
 python manage.py collectstatic --noinput
