@@ -24,7 +24,7 @@ function TicketDetail() {
     return await Promise.all(
       tickets.map(async (ticket) => {
         try {
-          const response = await fetch(`http://127.0.0.1:8000/api/tickets/${ticket.id}/qr/`, {
+          const response = await fetch(`https://event-planner-backend-kssg.onrender.com/api/tickets/${ticket.id}/qr/`, {
             headers: {
               Authorization: `Token ${token}`,
             },
@@ -56,7 +56,7 @@ function TicketDetail() {
         }
 
         // שים לב לכתובת כאן - קוראים לפי מזהה הזמנה
-        const response = await fetch(`http://127.0.0.1:8000/api/tickets/by_order/${id}/`, {
+        const response = await fetch(`https://event-planner-backend-kssg.onrender.com/api/tickets/by_order/${id}/`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Token ${token}`,

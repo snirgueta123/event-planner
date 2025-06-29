@@ -28,7 +28,7 @@ function EditEvent() {
   // <--- חדש: פונקציות useCallback לטעינת קטגוריות ומיקומים --->
   const fetchCategories = useCallback(async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/events/categories/');
+      const response = await fetch('https://event-planner-backend-kssg.onrender.com/api/events/categories/');
       if (!response.ok) {
         throw new Error('Failed to fetch categories');
       }
@@ -42,7 +42,7 @@ function EditEvent() {
 
   const fetchLocations = useCallback(async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/events/locations/');
+      const response = await fetch('https://event-planner-backend-kssg.onrender.com/api/events/locations/');
       if (!response.ok) {
         throw new Error('Failed to fetch locations');
       }
@@ -72,7 +72,7 @@ function EditEvent() {
         await fetchCategories(); // טען קטגוריות לפני טעינת האירוע
         await fetchLocations();   // טען מיקומים לפני טעינת האירוע
 
-        const response = await fetch(`http://127.0.0.1:8000/api/events/${id}/`, {
+        const response = await fetch(`https://event-planner-backend-kssg.onrender.com/api/events/${id}/`, {
           headers: {
             'Authorization': `Token ${token}`,
           },
@@ -163,7 +163,7 @@ function EditEvent() {
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/events/${id}/`, {
+      const response = await fetch(`https://event-planner-backend-kssg.onrender.com/api/events/${id}/`, {
         method: 'PUT', // or 'PATCH' depending on API design
         headers: {
           'Authorization': `Token ${token}`,

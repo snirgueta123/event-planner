@@ -15,7 +15,7 @@ function ForgotPassword() {
     try {
       // קריאה ל-API של ה-Backend לבקשת איפוס סיסמה
       // הנחתי נקודת קצה כזו, ייתכן שתצטרך להתאים אותה ל-Backend שלך
-      const response = await fetch('http://127.0.0.1:8000/api/users/request-password-reset/', {
+      const response = await fetch('https://event-planner-backend-kssg.onrender.com/api/users/request-password-reset/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

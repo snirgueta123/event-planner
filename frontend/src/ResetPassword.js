@@ -49,7 +49,7 @@ function ResetPassword() {
     addToast('מאפס סיסמה...', 'info');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/users/set-new-password/', { // נקודת קצה ב-Backend
+      const response = await fetch('https://event-planner-backend-kssg.onrender.com/api/users/set-new-password/', { // נקודת קצה ב-Backend
         method: 'POST', // Backend מוגדר כ-POST עבור SetNewPasswordView
         headers: {
           'Content-Type': 'application/json',

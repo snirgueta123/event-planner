@@ -67,7 +67,7 @@ function MyEvents() {
         queryParams.append('location', selectedLocationValueRef.current);
       }
 
-      const url = `http://127.0.0.1:8000/api/events/my_events/?${queryParams.toString()}`;
+      const url = `https://event-planner-backend-kssg.onrender.com/api/events/my_events/?${queryParams.toString()}`;
 
       const response = await fetch(url, {
         headers: {
@@ -98,7 +98,7 @@ function MyEvents() {
       const eventsWithDynamicPrices = await Promise.all(
         fetchedEvents.map(async (event) => {
           try {
-            const priceResponse = await fetch(`http://127.0.0.1:8000/api/events/${event.id}/current-price/`);
+            const priceResponse = await fetch(`https://event-planner-backend-kssg.onrender.com/api/events/${event.id}/current-price/`);
             if (!priceResponse.ok) {
               console.warn(`Failed to fetch dynamic price for event ${event.id}: ${priceResponse.statusText}`);
               return { ...event, dynamic_price: event.price, tier_name: 'N/A', is_dynamic_price: false };
@@ -172,7 +172,7 @@ function MyEvents() {
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/events/${eventIdToDelete}/`, {
+      const response = await fetch(`https://event-planner-backend-kssg.onrender.com/api/events/${eventIdToDelete}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Token ${token}`,

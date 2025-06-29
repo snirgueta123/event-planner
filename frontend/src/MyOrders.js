@@ -24,7 +24,7 @@ function MyOrders() {
     try {
       setLoading(true); // מתחיל טעינה
       setError(null);
-      const response = await fetch('http://127.0.0.1:8000/api/tickets/orders/', {
+      const response = await fetch('https://event-planner-backend-kssg.onrender.com/api/tickets/orders/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,
@@ -76,7 +76,7 @@ function MyOrders() {
     const token = localStorage.getItem('authToken');
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/tickets/orders/${orderId}/`, {
+      const response = await fetch(`https://event-planner-backend-kssg.onrender.com/api/tickets/orders/${orderId}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Token ${token}`,
