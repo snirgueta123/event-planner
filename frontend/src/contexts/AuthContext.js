@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
   const { addToast } = useToast();
-  const backendUrl = 'https://event-planner-backend-kssg.onrender.com/';
+  const backendUrl = 'https://event-planner-backend-kssg.onrender.com';
 
   const fetchUser = useCallback(async (initialLoad = false) => {
     if (!initialLoad && loading) {
