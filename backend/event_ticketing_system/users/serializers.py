@@ -10,7 +10,6 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework.exceptions import AuthenticationFailed
 
-# קבל את מודל המשתמש הפעיל (בטוח יותר לשימוש)
 User = get_user_model()
 
 
@@ -53,19 +52,12 @@ class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True, write_only=True)
 
-
-# *** זהו ה-UserSerializer המתוקן שגורם לבעיה הנוכחית ***
 class UserSerializer(serializers.ModelSerializer):
-    # הוספה קריטית: הגדרה מפורשת של שדות groups ו-user_permissions
-    # גם אם אתה לא משתמש בהם ישירות בפרונטאנד, DRF מנסה לגשת אליהם
-    # ויכול להיכשל אם הם לא מוגדרים בצורה תואמת.
-    # שימוש ב-PrimaryKeyRelatedField עם read_only=True הוא דרך בטוחה.
     groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     user_permissions = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = User
-        # *** שינוי קריטי: הגדרה מפורשת של השדות שאנחנו רוצים לכלול ***
         fields = [
             'id',
             'username',
@@ -73,11 +65,10 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'is_staff',
-            # נוסיף את השדות groups ו-user_permissions לרשימה
             'groups',
             'user_permissions'
         ]
-        read_only_fields = ['id', 'username', 'is_staff', 'groups', 'user_permissions'] # ונוסיף אותם ל-read_only
+        read_only_fields = ['id', 'username', 'is_staff', 'groups', 'user_permissions']
 
 
 class ChangePasswordSerializer(serializers.Serializer):

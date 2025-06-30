@@ -1,21 +1,22 @@
 // src/Login.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useToast } from './contexts/ToastContext'; // ייבוא ה-hook של ה-Toast
-import { useAuth } from './contexts/AuthContext'; // ייבוא useAuth
+import { useToast } from './contexts/ToastContext';
+import { useAuth } from './contexts/AuthContext';
 
-function Login() { // הסרנו onLoginSuccess מפרופס, נקבל login ישירות מ-useAuth
+function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false); // הוספת מצב טעינה
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { addToast } = useToast(); // השגת הפונקציה addToast מהקונטקסט
-  const { login } = useAuth(); // השגת הפונקציה login מהקונטקסט
+  const { addToast } = useToast();
+  const { login } = useAuth();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // הפעלת מצב טעינה
-    addToast('מתחבר...', 'info'); // הודעת טעינה/מידע
+    setLoading(true);
+    addToast('מתחבר...', 'info');
 
     try {
       const response = await fetch('https://event-planner-backend-kssg.onrender.com/api/users/login/', {
@@ -36,24 +37,22 @@ function Login() { // הסרנו onLoginSuccess מפרופס, נקבל login י�
         } else if (errorData.password) {
             errorMessage = `סיסמה: ${errorData.password.join(', ')}`;
         }
-        addToast(errorMessage, 'error'); // הצגת הודעת שגיאה בטוסט
-        throw new Error(errorMessage); // זרוק שגיאה כדי להפעיל את ה-catch
+        addToast(errorMessage, 'error');
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
-      // שלח את הטוקן ופרטי המשתמש לפונקציית ה-login של הקונטקסט
-      console.log("Login.js: Calling AuthContext login with data:", data); // Debug
+      console.log("Login.js: Calling AuthContext login with data:", data);
       login(data.token, { id: data.user_id, username: data.username, email: data.email });
 
-      // אין צורך ב-addToast('התחברת בהצלחה!', 'success') כאן, כי זה מטופל ב-AuthContext.js
       navigate('/', { state: { refreshEvents: true } });
     } catch (err) {
-      console.error("Login.js: שגיאה בהתחברות:", err); // Debug
-      if (!err.message.includes('התחברות נכשלה')) { // אם השגיאה כבר הוצגה בטוסט מה-if (!response.ok)
-        addToast(err.message || 'אירעה שגיאה בלתי צפויה.', 'error'); // הצג שגיאה גנרית אם לא הוגדרה ספציפית
+      console.error("Login.js: שגיאה בהתחברות:", err);
+      if (!err.message.includes('התחברות נכשלה')) {
+        addToast(err.message || 'אירעה שגיאה בלתי צפויה.', 'error');
       }
     } finally {
-      setLoading(false); // ביטול מצב טעינה בסיום הבקשה (הצלחה או כישלון)
+      setLoading(false);
     }
   };
 
@@ -100,16 +99,16 @@ function Login() { // הסרנו onLoginSuccess מפרופס, נקבל login י�
           <div>
             <button
               type="submit"
-              disabled={loading} // כפתור מושבת בזמן טעינה
+              disabled={loading}
               className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
-                loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700' // שינוי צבע וסמן בזמן טעינה
+                loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out`}
             >
-              {loading ? 'מתחבר...' : 'התחבר'} {/* שינוי טקסט הכפתור */}
+              {loading ? 'מתחבר...' : 'התחבר'} {}
             </button>
           </div>
         </form>
-        <div className="text-center text-sm space-y-2"> {/* הוספתי space-y-2 למרווח בין הקישורים */}
+        <div className="text-center text-sm space-y-2"> {}
           <p className="text-gray-600">
             עדיין אין לך חשבון?{' '}
             <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">

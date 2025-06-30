@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './App.css';
 import About from './About';
 import EventList from './EventList';
-import EventDetail from './EventDetail'; // *** תיקון קריטי: חזרה לנתיב המקורי והנכון ***
+import EventDetail from './EventDetail';
 import Login from './Login';
 import Register from './Register';
 import { Routes, Route, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -26,6 +26,7 @@ import SeatBookingPage from './components/SeatBookingPage';
 // Navbar Component - Corrected and Enhanced
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
+  console.log("Navbar user:", user);
   return (
     <nav className="bg-gradient-to-r from-blue-600 to-purple-700 p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center px-6 py-3">
