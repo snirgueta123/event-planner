@@ -67,7 +67,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.parse(
-        "postgresql://event_planner_db_kcbn_user:wApXhTS2EnuF07konF6t8nmOzLC8qKOT@dpg-d1h4ru3ipnbc73bdnrrg-a.render.com/event_planner_db_kcbn",
+        "postgresql://event_planner_db_kcbn_user:wApXhTS2EnuF07konF6t8nmOzLC8qKOT@dpg-d1h4ru3ipnbc73bdnrrg-a.oregon-postgres.render.com/event_planner_db_kcbn",
         conn_max_age=600
     )
 }
