@@ -71,6 +71,12 @@ const Navbar = () => {
 
 // Main App Content Component
 function AppContent() {
+     useEffect(() => {
+    // Wake-up ping to Render backend
+    fetch("https://event-planner-backend-kssg.onrender.com/")
+      .then(() => console.log("✅ Backend wake-up ping sent"))
+      .catch((err) => console.warn("⚠️ Wake-up ping failed:", err));
+  }, []);
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
