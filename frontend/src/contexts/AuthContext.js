@@ -66,12 +66,31 @@ export const AuthProvider = ({ children }) => {
     }
   }, [fetchUser, loading, user]);
 
-  const login = useCallback((token, userData) => {
-    localStorage.setItem('authToken', token);
-    setUser(userData);
-    addToast("התחברת בהצלחה!", "success");
-    setLoading(false);
-  }, [addToast]);
+  const login = useCallback(async (token, userData) => {
+  localStorage.setItem('authToken', token);
+
+  try {
+    const response = await fetch(`${backendUrl}/api/users/me/`, {
+      headers: {
+        'Authorization': `Token ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const fullUserData = await response.json();
+      setUser(fullUserData);
+    } else {
+      console.error("Failed to fetch user data after login");
+      setUser(null);
+    }
+  } catch (error) {
+    console.error("Network error during login user fetch:", error);
+    setUser(null);
+  }
+
+  addToast("התחברת בהצלחה!", "success");
+  setLoading(false);
+}, [addToast, backendUrl]);
 
   const logout = useCallback(() => {
     localStorage.removeItem('authToken');
