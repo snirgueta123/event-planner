@@ -1,4 +1,5 @@
 from pathlib import Path
+import dj_database_url
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -20,19 +21,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # אפליקציות צד שלישי (DRF, CORS וכו')
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
-    'corsheaders',  # לרוב עדיף למקם כאן או קרוב לזה
+    'corsheaders',
 
-    # אפליקציות הפרויקט שלך - הסדר חשוב!
-    # 'users' חייב לבוא ראשון אם הוא מודל המשתמש המותאם אישית
     'users',
-    'venues.apps.VenuesConfig',  # 'venues' לפני 'events' ו-'seats' אם יש תלויות
-    'events',  # 'events' תלוי ב-'venues' וב-'users'
-    'seats.apps.SeatsConfig',  # 'seats' תלוי ב-'events' וב-'venues' וב-'users'
-    'tickets',  # 'tickets' תלוי ב-'events' וב-'users' וב-'seats'
+    'venues.apps.VenuesConfig',
+    'events',
+    'seats.apps.SeatsConfig',
+    'tickets',
 ]
 
 MIDDLEWARE = [
@@ -68,10 +66,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        "postgresql://event_planner_db_kcbn_user:wApXhTS2EnuF07konF6t8nmOzLC8qKOT@dpg-d1h4ru3ipnbc73bdnrrg-a/event_planner_db_kcbn",
+        conn_max_age=600
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
