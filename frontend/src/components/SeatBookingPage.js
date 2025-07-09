@@ -294,6 +294,7 @@ function SeatBookingPage() {
       return <p className="text-gray-600 text-center">אין נתוני מפת ישיבה זמינים לאולם או לאירוע זה.</p>;
     }
     console.log("seatingMap:", seatingMap);
+    console.log("layoutData", layoutData);
     const sectionsData = seatingMap.layout_data.sections;
 
     return (
