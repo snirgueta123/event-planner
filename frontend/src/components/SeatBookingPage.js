@@ -295,7 +295,7 @@ function SeatBookingPage() {
     }
     console.log("seatingMap:", seatingMap);
     console.log("layoutData", layoutData);
-    const sectionsData = seatingMap.layout_data.sections;
+    const sectionsData = Object.values(seatingMap.layout_data.sections || {});
 
     return (
       <div className="flex flex-col items-center p-4 bg-gray-100 rounded-lg shadow-md">
