@@ -295,7 +295,6 @@ function SeatBookingPage() {
     }
     console.log("seatingMap:", seatingMap);
     console.log("layoutData", layoutData);
-    console.log("seatingMap JSON:", JSON.stringify(seatingMap, null, 2));
     const sectionsData = seatingMap.layout_data.sections;
 
     return (
@@ -303,18 +302,18 @@ function SeatBookingPage() {
         <h2 className="text-2xl font-bold mb-6 text-gray-800">
           מפת ישיבה עבור {eventDetails?.title || 'אירוע נבחר'}
         </h2>
-        {Object.entries(sectionsData).map(([sectionName, sectionDetails]) => (
-          <div key={sectionName} className="mb-6 w-full max-w-2xl bg-white p-4 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold mb-3 text-gray-700 border-b pb-2">{sectionName}</h3>
-            {Object.entries(sectionDetails.rows).map(([rowName, seatNumbersInRow]) => (
-              <div key={rowName} className="flex items-center mb-2 w-full"> {/* Container for ONE row: label + buttons */}
-                <span className="font-medium text-gray-600 w-12 text-right mr-3">שורה {rowName}:</span>
-                <div className="flex flex-wrap flex-grow"> {/* Container for seat buttons within this specific row, allowing them to wrap */}
-                  {seatNumbersInRow.map(seatNum => {
+        {sectionsData.map((section) => (
+          <div key={section.name} className="mb-6 w-full max-w-2xl bg-white p-4 rounded-lg shadow-sm">
+            <h3 className="text-xl font-semibold mb-3 text-gray-700 border-b pb-2">{section.name}</h3>
+            {section.rows.map((row) => (
+              <div key={row.row_number} className="flex items-center mb-2 w-full">
+                <span className="font-medium text-gray-600 w-12 text-right mr-3">שורה {row.row_number}:</span>
+                <div className="flex flex-wrap flex-grow">
+                  {row.seats.map((seatNum) => {
                     const seat = seats.find(s =>
-                      s.section.trim().toLowerCase() === sectionName.trim().toLowerCase() &&
-                      s.row_number.trim() === String(rowName).trim() &&
-                      s.seat_number.trim() === String(seatNum).trim()
+                       s.section.trim().toLowerCase() === section.name.trim().toLowerCase() &&
+                       s.row_number.trim() === String(row.row_number).trim() &&
+                       s.seat_number.trim() === String(seatNum).trim()
                     );
                     return seat ? renderSeat(seat) : null;
                   })}
