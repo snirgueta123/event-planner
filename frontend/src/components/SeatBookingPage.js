@@ -293,7 +293,7 @@ function SeatBookingPage() {
       if (!selectedEventId) return <p className="text-gray-600 text-center">אנא בחר אירוע כדי לראות את מפת הישיבה.</p>;
       return <p className="text-gray-600 text-center">אין נתוני מפת ישיבה זמינים לאולם או לאירוע זה.</p>;
     }
-
+    console.log("seatingMap:", seatingMap);
     const sectionsData = seatingMap.layout_data.sections;
 
     return (
@@ -301,7 +301,6 @@ function SeatBookingPage() {
         <h2 className="text-2xl font-bold mb-6 text-gray-800">
           מפת ישיבה עבור {eventDetails?.title || 'אירוע נבחר'}
         </h2>
-        console.log("seatingMap:", seatingMap);
         {Object.entries(sectionsData).map(([sectionName, sectionDetails]) => (
           <div key={sectionName} className="mb-6 w-full max-w-2xl bg-white p-4 rounded-lg shadow-sm">
             <h3 className="text-xl font-semibold mb-3 text-gray-700 border-b pb-2">{sectionName}</h3>
