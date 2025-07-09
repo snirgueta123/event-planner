@@ -308,15 +308,12 @@ function SeatBookingPage() {
               <div key={rowName} className="flex items-center mb-2 w-full"> {/* Container for ONE row: label + buttons */}
                 <span className="font-medium text-gray-600 w-12 text-right mr-3">שורה {rowName}:</span>
                 <div className="flex flex-wrap flex-grow"> {/* Container for seat buttons within this specific row, allowing them to wrap */}
-                  {(Array.isArray(seatNumbersInRow)
-                ? seatNumbersInRow
-                : Object.keys(seatNumbersInRow)
-              ).map(seatNum => {
-                const seat = seats.find(s =>
-                  s.section === sectionName &&
-                  s.row_number === rowName &&
-                  s.seat_number === String(seatNum)
-                );
+                  {seatNumbersInRow.map(seatNum => {
+                    const seat = seats.find(s =>
+                      s.section === sectionName &&
+                      s.row_number === rowName &&
+                      s.seat_number === String(seatNum) // Ensure comparison with string
+                    );
                     return seat ? renderSeat(seat) : null;
                   })}
                 </div>
