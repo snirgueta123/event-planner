@@ -310,9 +310,9 @@ function SeatBookingPage() {
                 <div className="flex flex-wrap flex-grow"> {/* Container for seat buttons within this specific row, allowing them to wrap */}
                   {seatNumbersInRow.map(seatNum => {
                     const seat = seats.find(s =>
-                      s.section === sectionName &&
-                      s.row_number === rowName &&
-                      s.seat_number === String(seatNum) // Ensure comparison with string
+                      s.section.trim().toLowerCase() === sectionName.trim().toLowerCase() &&
+                      s.row_number.trim() === String(rowName).trim() &&
+                      s.seat_number.trim() === String(seatNum).trim()
                     );
                     return seat ? renderSeat(seat) : null;
                   })}
