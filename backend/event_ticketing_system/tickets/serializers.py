@@ -9,8 +9,6 @@ from django.db.models import Q
 from django.apps import apps
 from decimal import Decimal
 
-
-# Serializer for PricingTier to display within other serializers
 class PricingTierSerializerForTickets(serializers.ModelSerializer):
     class Meta:
         model = PricingTier
@@ -26,7 +24,7 @@ class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ['id', 'event', 'price', 'is_scanned', 'ticket_code', 'event_details', 'owner_username', 'used_at',
-                  'pricing_tier', 'pricing_tier_info', 'seat_assigned']  # Corrected field name
+                  'pricing_tier', 'pricing_tier_info', 'seat_assigned']
         read_only_fields = ['id', 'is_scanned', 'ticket_code', 'used_at', 'price']  # Removed 'status'
 
     def get_event_details(self, obj):

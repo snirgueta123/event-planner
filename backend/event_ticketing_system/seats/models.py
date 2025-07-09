@@ -36,7 +36,6 @@ class Seat(models.Model):
     )
     reservation_expiry = models.DateTimeField(null=True, blank=True)
 
-    # *** שינוי קריטי כאן: הופכים את שדה 'ticket' לתגובה זמנית ***
     ticket = models.OneToOneField(
         'tickets.Ticket',
         on_delete=models.SET_NULL,

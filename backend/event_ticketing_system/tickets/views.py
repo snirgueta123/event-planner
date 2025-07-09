@@ -116,7 +116,6 @@ class TicketViewSet(viewsets.ReadOnlyModelViewSet):
         except Order.DoesNotExist:
             return Response({'error': 'ההזמנה לא קיימת.'}, status=404)
 
-        # ודא שהמשתמש הנוכחי הוא הבעלים של ההזמנה
         if not request.user.is_staff and order.buyer != request.user:
             return Response({'error': 'אין לך הרשאה לצפות בכרטיסים של הזמנה זו.'}, status=403)
 
@@ -128,11 +127,9 @@ class TicketViewSet(viewsets.ReadOnlyModelViewSet):
     def generate_qr(self, request, pk=None):
         ticket = self.get_object()
 
-        # ודא שהמשתמש רואה רק את הכרטיסים שלו (אלא אם הוא אדמין)
         if not request.user.is_staff and ticket.owner != request.user:
             return Response({'error': 'אין לך גישה לכרטיס זה.'}, status=status.HTTP_403_FORBIDDEN)
 
-        # צור QR Code מה־ticket_code
         qr_data = f"{ticket.ticket_code}"
         qr = qrcode.make(qr_data)
         buffer = BytesIO()

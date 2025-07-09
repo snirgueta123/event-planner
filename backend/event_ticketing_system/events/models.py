@@ -7,12 +7,8 @@ from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.apps import apps # <--- חדש: ייבוא apps לטעינה בטוחה של מודלים
-
 from venues.models import Venue
-# OLD: from seats.models import Seat # <--- חשוב: יש להסיר שורה זו!
 
-
-# הגדרת הקטגוריות האפשריות כקבועים
 EVENT_CATEGORIES = [
     ('Concert', 'Concert'),
     ('Sport', 'Sport'),
@@ -77,22 +73,18 @@ class Event(models.Model):
 
     @property
     def total_seats(self):
-        """מחזיר את המספר הכולל של כיסאות עבור אירוע זה."""
-        Seat = apps.get_model('seats', 'Seat') # <--- חדש: טעינה בטוחה של מודל Seat
-        return self.seats.count() # 'seats' הוא ה-related_name ממודל Seat
+        Seat = apps.get_model('seats', 'Seat')
+        return self.seats.count()
 
     @property
     def available_seats_count(self):
-        """מחזיר את מספר הכיסאות הזמינים (סטטוס 'available') עבור אירוע זה."""
-        Seat = apps.get_model('seats', 'Seat') # <--- חדש: טעינה בטוחה של מודל Seat
+        Seat = apps.get_model('seats', 'Seat')
         return self.seats.filter(status=Seat.AVAILABLE).count()
 
     @property
     def sold_seats_count(self):
-        """מחזיר את מספר הכיסאות שנמכרו (סטטוס 'sold') עבור אירוע זה."""
-        Seat = apps.get_model('seats', 'Seat') # <--- חדש: טעינה בטוחה של מודל Seat
+        Seat = apps.get_model('seats', 'Seat')
         return self.seats.filter(status=Seat.SOLD).count()
-
 
     def __str__(self):
         return self.title
@@ -133,15 +125,8 @@ class PricingTier(models.Model):
             return None
         return self.quantity_threshold - self.tickets_sold()
 
-
-# --- סיגנל ליצירת כיסאות באופן אוטומטי לאחר שמירת אירוע ---
 @receiver(post_save, sender=Event)
 def create_event_seats_on_save(sender, instance, created, **kwargs):
-    """
-    יוצר אובייקטי Seat עבור אירוע בהתבסס על מפת הישיבה של האולם המשויך אליו.
-    זה רץ כאשר אירוע נוצר או מתעדכן.
-    """
-    # חשוב: יש לטעון את מודל Seat כאן בתוך הפונקציה
     from django.apps import apps
     Seat = apps.get_model('seats', 'Seat') # <--- חדש: טעינה בטוחה של מודל Seat
 

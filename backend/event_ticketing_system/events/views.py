@@ -12,15 +12,11 @@ from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
-
-# הגדרת פאגינציה מותאמת אישית
 class EventPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
 
-
-# הגדרת הרשאה מותאמת אישית ל-IsOrganizerOrAdmin
 class IsOrganizerOrAdmin(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.user and request.user.is_staff:
@@ -29,15 +25,7 @@ class IsOrganizerOrAdmin(permissions.BasePermission):
             return True
         return obj.organizer == request.user
 
-
-# פונקציית עזר לחילוץ שם העיר
 def get_city_from_location(location_string):
-    """
-    מנסה לחלץ שם עיר מתוך מחרוזת כתובת.
-    זוהי לוגיקה פשוטה המבוססת על ההנחה שהעיר היא החלק האחרון אחרי פסיק,
-    או מילה יחידה אם אין פסיקים.
-    ניתן לשפר זאת עם רשימת ערים ידועות או שירותי Geocoding.
-    """
     if not location_string:
         return None
 
@@ -175,7 +163,6 @@ class EventViewSet(viewsets.ModelViewSet):
             tier.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-    # פונקציה לקבלת המחיר הנוכחי של כרטיס לאירוע (לוגיקת תמחור דינמי)
     @action(detail=True, methods=['get'])
     def current_price(self, request, pk=None):
         try:
@@ -240,8 +227,6 @@ class EventViewSet(viewsets.ModelViewSet):
                 f"DEBUG (current_price): No dynamic tier found active for {event.title}. Falling back. Final API Response Data: {final_response_data}")
             return Response(final_response_data)
 
-
-# --- Views פונקציונליים נפרדים לקטגוריות ומיקומים ---
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def get_categories_list(request):
@@ -252,7 +237,6 @@ def get_categories_list(request):
     categories = Event.objects.values_list('category', flat=True).distinct().exclude(category__isnull=True).exclude(
         category__exact='').order_by('category')
 
-    # *** שינוי קריטי: אם אין קטגוריות, ספק רשימת ברירת מחדל ***
     if not categories:
         default_categories = ['Concert', 'Sport', 'Theater', 'Conference', 'Workshop', 'Exhibition']
         return Response(default_categories)

@@ -18,7 +18,7 @@ router.register(r'tickets/orders', OrderViewSet, basename='order')
 router.register(r'tickets', TicketViewSet, basename='ticket')
 
 urlpatterns = [
-    path('', health_check),  # נתיב הבסיס
+    path('', health_check),
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),
     path('api/events/categories/', get_categories_list, name='event-categories-list'),

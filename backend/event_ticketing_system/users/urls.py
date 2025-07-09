@@ -15,7 +15,6 @@ urlpatterns = [
     path('login/', UserLoginView.as_view(), name='login'),
     path('me/', CurrentUserView.as_view(), name='current-user'),
     path('change-password/', ChangePasswordView.as_view(), name='change-password'),
-    # --- נתיבים חדשים לאיפוס סיסמה ---
-    path('request-password-reset/', RequestPasswordResetView.as_view(), name='request-password-reset'), # נתיב לבקשת איפוס
-    path('set-new-password/', SetNewPasswordView.as_view(), name='set-new-password'), # נתיב להגדרת סיסמה חדשה
+    path('request-password-reset/', RequestPasswordResetView.as_view(), name='request-password-reset'),
+    path('set-new-password/', SetNewPasswordView.as_view(), name='set-new-password'),
 ]

@@ -15,22 +15,13 @@ from venues.serializers import SeatingMapSerializer
 from events.models import Event
 from tickets.models import Ticket, Order
 
-
 class SeatViewSet(viewsets.ModelViewSet):
-    """
-    ViewSet עבור מודל Seat.
-    מאפשר קבלת רשימת כיסאות וניהול סטטוס כיסא (שמירה/ביטול שמירה).
-    """
     queryset = Seat.objects.all().select_related('event', 'venue', 'reserved_by', 'ticket')
     serializer_class = SeatSerializer
     permission_classes = [AllowAny]
     pagination_class = None
 
     def get_queryset(self):
-        """
-        מאפשר סינון כיסאות לפי event_id.
-        לדוגמה: /api/seats/?event_id=123
-        """
         queryset = super().get_queryset()
         event_id = self.request.query_params.get('event_id')
         if event_id:
@@ -39,9 +30,6 @@ class SeatViewSet(viewsets.ModelViewSet):
 
     # GET: /api/seats/{seat_id}/
     def retrieve(self, request, *args, **kwargs):
-        """
-        קבלת פרטים על כיסא ספציפי.
-        """
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
@@ -49,10 +37,6 @@ class SeatViewSet(viewsets.ModelViewSet):
     # POST: /api/seats/{seat_id}/reserve/
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def reserve(self, request, pk=None):
-        """
-        פעולה לשמירת כיסא.
-        כיסא יישמר למשך זמן מוגבל (לדוגמה, 15 דקות).
-        """
         seat = get_object_or_404(Seat, pk=pk)
         user = request.user
 
@@ -74,9 +58,6 @@ class SeatViewSet(viewsets.ModelViewSet):
     # POST: /api/seats/{seat_id}/unreserve/
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def unreserve(self, request, pk=None):
-        """
-        פעולה לביטול שמירה של כיסא.
-        """
         seat = get_object_or_404(Seat, pk=pk)
         user = request.user
 
@@ -98,10 +79,6 @@ class SeatViewSet(viewsets.ModelViewSet):
     # POST: /api/seats/{seat_id}/purchase/
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def purchase(self, request, pk=None):
-        """
-        פעולה לרכישת כיסא (סימון כיסא כמכור).
-        זה יכלול יצירת אובייקט Ticket וקישורו לכיסא.
-        """
         seat = get_object_or_404(Seat, pk=pk)
         user = request.user
 
@@ -155,10 +132,6 @@ class SeatViewSet(viewsets.ModelViewSet):
     # POST: /api/seats/{seat_id}/release/
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def release(self, request, pk=None):
-        """
-        פעולה לשחרור כיסא שנמכר והחזרתו למצב זמין לרכישה.
-        פעולה זו מוחקת גם את הכרטיס המשויך לכיסא.
-        """
         seat = get_object_or_404(Seat, pk=pk)
         user = request.user
 
@@ -185,9 +158,6 @@ class SeatViewSet(viewsets.ModelViewSet):
 
 
 class SeatingMapRetrieveViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    ViewSet לקבלת מפת ישיבה עבור אולם ספציפי (קריאה בלבד).
-    """
     queryset = SeatingMap.objects.all().select_related('venue')
     serializer_class = SeatingMapSerializer
     permission_classes = [AllowAny]
@@ -195,9 +165,6 @@ class SeatingMapRetrieveViewSet(viewsets.ReadOnlyModelViewSet):
     # GET: /api/seating-maps/by_venue/{venue_id}/
     @action(detail=False, methods=['get'])
     def by_venue(self, request):
-        """
-        מחזיר את מפת הישיבה עבור venue_id נתון.
-        """
         venue_id = self.request.query_params.get('venue_id')
         if not venue_id:
             return Response({"detail": "venue_id parameter is required."}, status=status.HTTP_400_BAD_REQUEST)

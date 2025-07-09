@@ -30,17 +30,14 @@ class SeatingMapDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SeatingMapSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-
-# NEW: View כדי להחזיר מפת ישיבה לפי ID של אולם
 class SeatingMapByVenueView(APIView):
-    permission_classes = [permissions.AllowAny]  # או IsAuthenticatedOrReadOnly אם תרצה הגבלה
+    permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
         venue_id = request.query_params.get('venue_id')
         if not venue_id:
             return Response({"error": "יש לספק venue_id."}, status=400)
 
-        # ננסה למצוא את מפת הישיבה המשויכת לאולם
         seating_map = get_object_or_404(SeatingMap, venue__id=venue_id)
         serializer = SeatingMapSerializer(seating_map)
         return Response(serializer.data)

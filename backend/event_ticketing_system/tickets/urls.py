@@ -9,6 +9,4 @@ router.register(r'', TicketViewSet, basename='ticket') # basename נחוץ עב�
 
 urlpatterns = [
     path('', include(router.urls)),
-    # נקודת קצה לרכישת כרטיסים: /api/orders/purchase_tickets/
-    # היא כבר כלולה בתוך router.urls כי היא @action של OrderViewSet
 ]

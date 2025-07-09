@@ -4,11 +4,7 @@ from .models import Event, PricingTier # ייבוא מודלים אלה (User ל
 from django.contrib.auth import get_user_model # <--- חדש: ייבוא get_user_model
 from django.apps import apps # <--- חדש: ייבוא apps
 
-
-# הגדרת אובייקט User (כך שיהיה זמין לשימוש באדמין אם צריך)
-# אנחנו קוראים ל-get_user_model() רק אחרי שכל האפליקציות נטענו
-# (במהלך הפעלת השרת) אז זה בטוח כאן
-User = get_user_model() # <--- שימוש בטוח במודל המשתמש
+User = get_user_model()
 
 class PricingTierInline(admin.TabularInline):
     model = PricingTier
@@ -36,28 +32,25 @@ class EventAdmin(admin.ModelAdmin):
         'total_seats_display', 'available_seats_count_display', 'sold_seats_count_display'
     )
 
-    # נגדיר את organizer כ-readonly אם המשתמש הנוכחי אינו סופר-יוזר
     def get_readonly_fields(self, request, obj=None):
-        if obj and not request.user.is_superuser: # רק סופר-יוזר יכול לשנות מארגן
+        if obj and not request.user.is_superuser:
             return self.readonly_fields + ('organizer',)
         return self.readonly_fields
 
-    # Custom methods for displaying properties in list_display and readonly_fields
-    # These methods refer to the @property methods in the Event model
     def total_seats_display(self, obj):
-        Seat = apps.get_model('seats', 'Seat') # <--- טעינה בטוחה של מודל Seat
-        return obj.seats.count() # 'seats' הוא ה-related_name ממודל Seat
+        Seat = apps.get_model('seats', 'Seat')
+        return obj.seats.count()
 
     total_seats_display.short_description = "סה''כ כיסאות"
 
     def available_seats_count_display(self, obj):
-        Seat = apps.get_model('seats', 'Seat') # <--- טעינה בטוחה של מודל Seat
+        Seat = apps.get_model('seats', 'Seat')
         return obj.seats.filter(status=Seat.AVAILABLE).count()
 
     available_seats_count_display.short_description = "כיסאות זמינים"
 
     def sold_seats_count_display(self, obj):
-        Seat = apps.get_model('seats', 'Seat') # <--- טעינה בטוחה של מודל Seat
+        Seat = apps.get_model('seats', 'Seat')
         return obj.seats.filter(status=Seat.SOLD).count()
 
     sold_seats_count_display.short_description = "כיסאות שנמכרו"
@@ -84,9 +77,6 @@ class EventAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('venue__seating_map')
 
-
-# אין צורך לרשום את EventAdmin ו-PricingTierAdmin שוב, זה כבר נעשה ע"י @admin.register
-# admin.site.register(Event, EventAdmin) # שורה זו מיותרת כשיש @admin.register
 
 
 

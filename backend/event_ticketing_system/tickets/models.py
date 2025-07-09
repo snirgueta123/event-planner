@@ -17,10 +17,10 @@ class Order(models.Model):
     def __str__(self):
         User = apps.get_model(settings.AUTH_USER_MODEL.split('.')[0], settings.AUTH_USER_MODEL.split('.')[1])
         try:
-            buyer_obj = User.objects.get(pk=self.buyer_id)  # נסה להשיג את המשתמש
+            buyer_obj = User.objects.get(pk=self.buyer_id)
             username = buyer_obj.username
         except User.DoesNotExist:
-            username = "Unknown User"  # אם המשתמש לא קיים (נמחק), או בעיית טעינה
+            username = "Unknown User"
 
         return f"Order {self.id} by {username}"
 
@@ -61,16 +61,15 @@ class Ticket(models.Model):
         try:
             event_obj = Event.objects.get(pk=self.event_id)
         except Event.DoesNotExist:
-            pass  # אם האירוע נמחק, או עדיין לא נטען
+            pass
 
         seat_info = "אין כיסא"
-        if self.seat_assigned:  # ודא ש-self.seat_assigned קיים
+        if self.seat_assigned:
             try:
-                # נטען את אובייקט Seat מחדש (אם הוא נטען מוקדם מדי)
                 seat_obj = Seat.objects.get(pk=self.seat_assigned_id)
                 seat_info = f"כיסא {seat_obj.seat_number} בשורה {seat_obj.row_number} (סקשן {seat_obj.section})"
             except Seat.DoesNotExist:
-                pass  # אם הכיסא לא קיים
+                pass
 
         event_title = event_obj.title if event_obj else "אירוע לא ידוע"
         tier_name = self.pricing_tier.name if self.pricing_tier else "ברירת מחדל"
@@ -81,7 +80,7 @@ class Ticket(models.Model):
         self.ticket_code = str(uuid.uuid4())
 
     def save(self, *args, **kwargs):
-        if not self.ticket_code:  # שימוש ב-ticket_code במקום barcode
+        if not self.ticket_code:
             self.generate_barcode()
         super().save(*args, **kwargs)
 
@@ -90,7 +89,7 @@ class Ticket(models.Model):
         verbose_name_plural = "Tickets"
         unique_together = ('event', 'ticket_code')
 
-@receiver(post_save, sender='tickets.Ticket')  # <--- שינוי: שימוש במחרוזת עבור sender
+@receiver(post_save, sender='tickets.Ticket')
 def update_order_on_ticket_save(sender, instance, created, **kwargs):
     if created:
         with transaction.atomic():
@@ -102,7 +101,7 @@ def update_order_on_ticket_save(sender, instance, created, **kwargs):
             print(
                 f"DEBUG: Order {order.id} updated after ticket {instance.id} created. New quantity: {order.quantity}, total: {order.total_amount}")
 
-@receiver(post_delete, sender='tickets.Ticket')  # <--- שינוי: שימוש במחרוזת עבור sender
+@receiver(post_delete, sender='tickets.Ticket')
 def update_order_on_ticket_delete(sender, instance, **kwargs):
     if instance.order:
         with transaction.atomic():

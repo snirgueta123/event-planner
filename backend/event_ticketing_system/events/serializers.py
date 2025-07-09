@@ -23,7 +23,6 @@ class PricingTierSerializer(serializers.ModelSerializer):
         return data
 
 
-# --- 2. EventSerializer (לצורך קריאה, ליסט, פרטי אירוע) ---
 class EventSerializer(serializers.ModelSerializer):
     organizer_username = serializers.CharField(source='organizer.username', read_only=True)
     pricing_tiers = PricingTierSerializer(many=True, read_only=True)
@@ -58,8 +57,6 @@ class EventSerializer(serializers.ModelSerializer):
             return round((sold / total) * 100)
         return 0
 
-
-# --- 3. EventCreateSerializer (ליצירת אירוע חדש) ---
 class EventCreateSerializer(serializers.ModelSerializer):
     pricing_tiers = PricingTierSerializer(many=True, required=False)
 
@@ -87,8 +84,6 @@ class EventCreateSerializer(serializers.ModelSerializer):
 
         return event
 
-
-# --- 4. EventUpdateSerializer (לעדכון אירוע קיים) ---
 class EventUpdateSerializer(serializers.ModelSerializer):
     pricing_tiers = PricingTierSerializer(many=True, required=False)
 
