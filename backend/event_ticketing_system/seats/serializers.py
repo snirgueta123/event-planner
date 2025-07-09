@@ -9,13 +9,13 @@ class EventSerializerForSeat(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('id', 'title', 'start_date', 'end_date', 'city_name')
-        read_only_fields = fields # רק לקריאה
+        read_only_fields = fields
 
 class UserSerializerForSeat(serializers.ModelSerializer):
     class Meta:
-        model = apps.get_model('users', 'User') # <--- שינוי: טעינה בטוחה של מודל המשתמש
+        model = apps.get_model('users', 'User')
         fields = ('id', 'username', 'email')
-        read_only_fields = fields # רק לקריאה
+        read_only_fields = fields
 
 
 class SeatSerializer(serializers.ModelSerializer):
