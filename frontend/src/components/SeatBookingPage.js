@@ -295,6 +295,7 @@ function SeatBookingPage() {
     }
     console.log("seatingMap:", seatingMap);
     console.log("layoutData", layoutData);
+    console.log("seatingMap JSON:", JSON.stringify(seatingMap, null, 2));
     const sectionsData = seatingMap.layout_data.sections;
 
     return (
